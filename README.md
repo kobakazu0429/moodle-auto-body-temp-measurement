@@ -6,5 +6,7 @@ fill in a mask part and type below command.
 
 ```shell
 % yarn install
-% username=*** password=*** yarn start
+% cp .env.sample .env
+# edit .env
+% yarn start
 ```
