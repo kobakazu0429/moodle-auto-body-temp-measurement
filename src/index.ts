@@ -25,13 +25,20 @@ if (month !== 8) process.exit();
   await moodle.gotoMesumentPage();
   await moodle.gotoDailyPage(month, date);
 
+  await moodle.gotoAnswerFormPage();
+
   const filename = `${month}-${date}`;
-  await moodle.screenshotElement("#region-main", filename);
+
+  await moodle.fillForm();
+  await moodle.screenshotElement("#region-main", `${filename}-form`);
+
+  await moodle.answerForm();
+  await moodle.screenshotElement("#region-main", `${filename}-answer`);
   await moodle.close();
 
-  const imgPath = `${filename}.png`;
+  const formImgUrl = await uploadGyazo(`${filename}-form.png`);
+  const answerImgUrl = await uploadGyazo(`${filename}-answer.png`);
 
-  const url = await uploadGyazo(imgPath, filename);
-
-  await sendToSlack({ url, title: filename });
+  await sendToSlack({ url: formImgUrl, title: `${filename}-form` });
+  await sendToSlack({ url: answerImgUrl, title: `${filename}-answer` });
 })();

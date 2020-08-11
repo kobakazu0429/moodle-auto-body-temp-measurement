@@ -14,7 +14,7 @@ class Moodle {
   }
 
   public async init() {
-    this.browser = await playwright["chromium"].launch();
+    this.browser = await playwright["chromium"].launch({ headless: false });
     const context = await this.browser.newContext();
     this.page = await context.newPage();
 
@@ -35,8 +35,12 @@ class Moodle {
     console.log("Moodle.close: closed");
   }
 
+  public async wait() {
+    await this.page.waitForSelector("#region-main", { state: "visible" });
+  }
+
   public async screenshot(filename: string) {
-    await this.page.waitForSelector("#page", { state: "attached" });
+    await this.wait();
     await this.page.screenshot({ path: `${filename}.png`, fullPage: true });
     console.log("Moodle.screenshot: screenshoted");
   }
@@ -49,6 +53,16 @@ class Moodle {
       console.log(`Moodle.screenshotElement: screenshoted, ${element}`);
     } else {
       console.log(`Moodle.screenshotElement: screenshot failed, ${element}`);
+    }
+  }
+
+  public async click(element: string) {
+    const handle = await this.page.$(element);
+    if (handle) {
+      await handle.click();
+      console.log(`Moodle.click: moved, ${element}`);
+    } else {
+      console.log(`Moodle.click: moved failed, ${element}`);
     }
   }
 }
@@ -65,16 +79,40 @@ export class AutoBodyTempMesument extends Moodle {
   }
 
   public async gotoDailyPage(month: number, date: number) {
-    const handle = await this.page.$(`text=${month}/${date}検温`);
-    if (handle) {
-      await handle.click();
-      console.log(
-        `AutoBodyTempMesument.gotoDailyPage: moved, ${month}/${date}`
-      );
-    } else {
-      console.log(
-        `AutoBodyTempMesument.gotoDailyPage: moved failed, ${month}/${date}`
-      );
-    }
+    await this.click(`text=${month}/${date}検温`);
+  }
+
+  public async gotoAnswerFormPage() {
+    const anchorTags = await this.page.$$("a");
+
+    return new Promise((resolve: () => void) => {
+      anchorTags.forEach(async (a) => {
+        const t = await a.textContent();
+        const target = t && t.startsWith("質問");
+        if (target) {
+          await a.click();
+          console.log("AutoBodyTempMesument.gotoAnswerFormPage: moved");
+          resolve();
+        }
+      });
+    });
+  }
+
+  public async fillForm() {
+    await this.wait();
+    await this.page.selectOption(
+      "//html/body/div[3]/div/div/div/section/div/div[1]/form/div[2]/div[1]/div/div[2]/div/select",
+      "1"
+    );
+    await this.page.selectOption(
+      "//html/body/div[3]/div/div/div/section/div/div[1]/form/div[2]/div[3]/div/div[2]/div/select",
+      "1"
+    );
+    console.log("AutoBodyTempMesument.fillForm: done");
+  }
+
+  public async answerForm() {
+    await this.click(`input[name=savevalues]`);
+    console.log("AutoBodyTempMesument.answerForm: done");
   }
 }
