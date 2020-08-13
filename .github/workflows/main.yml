@@ -4,6 +4,7 @@ on:
   schedule:
     #  8:30 as UTC
     - cron: "30 23 * * *"
+  workflow_dispatch:
 
 jobs:
   automation:
