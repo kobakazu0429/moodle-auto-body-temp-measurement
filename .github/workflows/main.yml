@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "13.14.0"
       - run: yarn install
-        run: yarn start
+      - run: yarn start
         env:
           USERNAME: ${{secrets.USERNAME}}
           PASSWORD: ${{secrets.PASSWORD}}
