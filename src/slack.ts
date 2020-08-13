@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export async function sendToSlack(img: { url: string; title: string }) {
-  const { slack_incoming_web_hook } = process.env;
+  const { SLACK_INCOMING_WEB_HOOK } = process.env;
 
-  if (!slack_incoming_web_hook)
-    throw new Error(`slack_incoming_web_hook: ${slack_incoming_web_hook}`);
+  if (!SLACK_INCOMING_WEB_HOOK)
+    throw new Error(`SLACK_INCOMING_WEB_HOOK: ${SLACK_INCOMING_WEB_HOOK}`);
 
-  const res = await axios.post(slack_incoming_web_hook, {
+  const res = await axios.post(SLACK_INCOMING_WEB_HOOK, {
     blocks: [
       {
         type: "image",

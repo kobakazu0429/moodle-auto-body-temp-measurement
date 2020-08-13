@@ -6,11 +6,10 @@ import { sendToSlack } from "./slack";
 
 dotenv.config();
 
-const username = process.env.username;
-const password = process.env.password;
+const { USERNAME, PASSWORD } = process.env;
 
-if (!username || !password)
-  throw new Error(`username: ${username}, password: ${password}`);
+if (!USERNAME || !PASSWORD)
+  throw new Error(`USERNAME: ${USERNAME}, PASSWORD: ${PASSWORD}`);
 
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -19,7 +18,7 @@ const date = today.getDate();
 if (month !== 8) process.exit();
 
 (async () => {
-  const moodle = new AutoBodyTempMesument(username, password);
+  const moodle = new AutoBodyTempMesument(USERNAME, PASSWORD);
   await moodle.init();
   await moodle.login();
   await moodle.gotoMesumentPage();
