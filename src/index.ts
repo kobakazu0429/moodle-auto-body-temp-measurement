@@ -32,7 +32,9 @@ if (month !== 8) process.exit();
   await moodle.fillForm();
   await moodle.screenshotElement("#region-main", `${filename}-form`);
 
+  await moodle.page.waitForTimeout(500);
   await moodle.answerForm();
+  await moodle.page.waitForTimeout(2000);
   await moodle.screenshotElement("#region-main", `${filename}-answer`);
   await moodle.close();
 
