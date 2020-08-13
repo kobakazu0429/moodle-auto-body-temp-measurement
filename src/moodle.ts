@@ -14,7 +14,7 @@ class Moodle {
   }
 
   public async init() {
-    this.browser = await playwright["chromium"].launch({ headless: false });
+    this.browser = await playwright["chromium"].launch({ headless: true });
     const context = await this.browser.newContext();
     this.page = await context.newPage();
 
