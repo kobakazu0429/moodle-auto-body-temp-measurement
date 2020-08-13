@@ -18,31 +18,33 @@ const today = dayjs();
 const month = today.month() + 1;
 const date = today.date();
 
-if (month !== 8) process.exit();
+console.log(today, month, date);
 
-(async () => {
-  const moodle = new AutoBodyTempMesument(USERNAME, PASSWORD);
-  await moodle.init();
-  await moodle.login();
-  await moodle.gotoMesumentPage();
-  await moodle.gotoDailyPage(month, date);
+// if (month !== 8) process.exit();
 
-  await moodle.gotoAnswerFormPage();
+// (async () => {
+//   const moodle = new AutoBodyTempMesument(USERNAME, PASSWORD);
+//   await moodle.init();
+//   await moodle.login();
+//   await moodle.gotoMesumentPage();
+//   await moodle.gotoDailyPage(month, date);
 
-  const filename = `${month}-${date}`;
+//   await moodle.gotoAnswerFormPage();
 
-  await moodle.fillForm();
-  await moodle.screenshotElement("#region-main", `${filename}-form`);
+//   const filename = `${month}-${date}`;
 
-  await moodle.page.waitForTimeout(500);
-  await moodle.answerForm();
-  await moodle.page.waitForTimeout(2000);
-  await moodle.screenshotElement("#region-main", `${filename}-answer`);
-  await moodle.close();
+//   await moodle.fillForm();
+//   await moodle.screenshotElement("#region-main", `${filename}-form`);
 
-  const formImgUrl = await uploadGyazo(`${filename}-form.png`);
-  const answerImgUrl = await uploadGyazo(`${filename}-answer.png`);
+//   await moodle.page.waitForTimeout(500);
+//   await moodle.answerForm();
+//   await moodle.page.waitForTimeout(2000);
+//   await moodle.screenshotElement("#region-main", `${filename}-answer`);
+//   await moodle.close();
 
-  await sendToSlack({ url: formImgUrl, title: `${filename}-form` });
-  await sendToSlack({ url: answerImgUrl, title: `${filename}-answer` });
-})();
+//   const formImgUrl = await uploadGyazo(`${filename}-form.png`);
+//   const answerImgUrl = await uploadGyazo(`${filename}-answer.png`);
+
+//   await sendToSlack({ url: formImgUrl, title: `${filename}-form` });
+//   await sendToSlack({ url: answerImgUrl, title: `${filename}-answer` });
+// })();
