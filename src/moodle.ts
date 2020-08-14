@@ -79,10 +79,12 @@ export class AutoBodyTempMesument extends Moodle {
   }
 
   public async gotoDailyPage(month: number, date: number) {
+    await this.wait();
     await this.click(`text=${month}/${date}検温`);
   }
 
   public async gotoAnswerFormPage() {
+    await this.wait();
     const anchorTags = await this.page.$$("a");
 
     return new Promise((resolve: () => void) => {
