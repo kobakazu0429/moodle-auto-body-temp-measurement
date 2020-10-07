@@ -18,9 +18,6 @@ const date = today.date();
 console.log(today);
 console.log(month, date);
 
-if (month > 10) process.exit();
-if (month === 10 && date > 2) process.exit();
-
 (async () => {
   const moodle = new AutoBodyTempMesument(USERNAME, PASSWORD);
   await moodle.init();
