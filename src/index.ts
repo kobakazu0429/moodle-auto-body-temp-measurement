@@ -14,12 +14,15 @@ if (!USERNAME || !PASSWORD)
 const today = moment().tz("Asia/Tokyo");
 const month = today.month() + 1;
 const date = today.date();
+const day = today.day();
 
 console.log(today);
-console.log(month, date);
+console.log(month, date, day);
 
-if (month > 10) process.exit();
-if (month === 10 && date > 2) process.exit();
+if ([0, 6].includes(day)) {
+  console.log("weekend.");
+  process.exit();
+}
 
 (async () => {
   const moodle = new AutoBodyTempMesument(USERNAME, PASSWORD);

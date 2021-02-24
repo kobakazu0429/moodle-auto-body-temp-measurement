@@ -22,11 +22,11 @@ class Moodle {
   }
 
   public async login() {
-    const url = "https://e-mdl.kure-nct.ac.jp/login/index.php";
+    const url = "https://k-mdl01.kure-nct.ac.jp/login/index.php";
     await this.page.goto(url);
     await this.page.fill('input[name="username"]', this.username);
     await this.page.fill('input[name="password"]', this.password);
-    await this.page.click('input[id="loginbtn"]');
+    await this.page.click('button[id="loginbtn"]');
     console.log("Moodle.login: logined");
   }
 
@@ -73,43 +73,26 @@ export class AutoBodyTempMesument extends Moodle {
   }
 
   public async gotoMesumentPage() {
-    const url = "https://e-mdl.kure-nct.ac.jp/course/view.php?id=599";
+    const url = "https://k-mdl01.kure-nct.ac.jp/course/view.php?id=6";
     await this.page.goto(url);
     console.log("AutoBodyTempMesument.gotoMesumentPage: moved");
   }
 
   public async gotoDailyPage(month: number, date: number) {
     await this.wait();
-    await this.click(`text=${month}/${date}検温`);
+    await this.click(`text=${month}/${date}`);
   }
 
   public async gotoAnswerFormPage() {
     await this.wait();
-    const anchorTags = await this.page.$$("a");
-
-    return new Promise((resolve: (v: void) => void) => {
-      anchorTags.forEach(async (a) => {
-        const t = await a.textContent();
-        const target = t && t.startsWith("質問");
-        if (target) {
-          await a.click();
-          console.log("AutoBodyTempMesument.gotoAnswerFormPage: moved");
-          resolve();
-        }
-      });
-    });
+    await this.click(`text=質問に回答する`);
+    console.log("AutoBodyTempMesument.gotoAnswerFormPage: moved");
   }
 
   public async fillForm() {
     await this.wait();
-    await this.page.selectOption(
-      "//html/body/div[3]/div/div/div/section/div/div[1]/form/div[2]/div[1]/div/div[2]/div/select",
-      "1"
-    );
-    await this.page.selectOption(
-      "//html/body/div[3]/div/div/div/section/div/div[1]/form/div[2]/div[3]/div/div[2]/div/select",
-      "1"
-    );
+    await this.page.check("text=なし（37.5度未満）");
+    await this.page.check("text=なし（他県へ移動しない）");
     console.log("AutoBodyTempMesument.fillForm: done");
   }
 

@@ -11,6 +11,7 @@ export async function uploadGyazo(path: string): Promise<string> {
   const res = await client.upload(path).catch(function (err: any) {
     console.error(err);
   });
+  console.log(`uploadGyazo(path: ${path}): ${res.data.url}`);
 
   return res.data.url as string;
 }
