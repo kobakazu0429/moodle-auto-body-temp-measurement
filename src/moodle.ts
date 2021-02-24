@@ -87,7 +87,7 @@ export class AutoBodyTempMesument extends Moodle {
     await this.wait();
     const anchorTags = await this.page.$$("a");
 
-    return new Promise((resolve: () => void) => {
+    return new Promise((resolve: (v: void) => void) => {
       anchorTags.forEach(async (a) => {
         const t = await a.textContent();
         const target = t && t.startsWith("質問");
