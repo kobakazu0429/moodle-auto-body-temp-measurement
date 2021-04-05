@@ -73,7 +73,7 @@ export class AutoBodyTempMesument extends Moodle {
   }
 
   public async gotoMesumentPage() {
-    const url = "https://k-mdl01.kure-nct.ac.jp/course/view.php?id=6";
+    const url = "https://k-mdl01.kure-nct.ac.jp/course/view.php?id=37";
     await this.page.goto(url);
     console.log("AutoBodyTempMesument.gotoMesumentPage: moved");
   }

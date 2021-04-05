@@ -1,9 +1,9 @@
 name: main
 
 on:
-  # schedule:
-  #   #  08:00: UTC
-  #   - cron: "0 23 * * *"
+  schedule:
+    #  08:00: UTC
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 jobs:
