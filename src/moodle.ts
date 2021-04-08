@@ -91,8 +91,9 @@ export class AutoBodyTempMesument extends Moodle {
 
   public async fillForm() {
     await this.wait();
-    await this.page.check("text=なし（37.5度未満）");
-    await this.page.check("text=なし（他県へ移動しない）");
+    const selects = await this.page.$$("select");
+    await selects[0].selectOption("1");
+    await selects[1].selectOption("1");
     console.log("AutoBodyTempMesument.fillForm: done");
   }
 
